@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fake WiFi Login - Birthday Surprise</title>
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      overflow: hidden;
+    }
+    /* Overlay popup full màn */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    /* Popup chính */
+    .popup {
+      background: white;
+      width: 320px;
+      max-width: 90vw;
+      padding: 30px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    .popup h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 1.4rem;
+    }
+    .popup button {
+      padding: 14px 28px;
+      background: #007bff;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .popup button:hover {
+      background: #0056b3;
+    }
+    /* Video container */
+    #video-container {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: black;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      padding: 20px;
+    }
+    #video-container video {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+    #video-container button {
+      margin-top: 20px;
+      background: #ff5722;
+      border: none;
+      color: white;
+      padding: 10px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #video-container button:hover {
+      background: #e64a19;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Popup giả kết nối wifi -->
+  <div class="overlay" id="fake-wifi-popup">
+    <div class="popup">
+      <h2>Nhấn vào đây để kết nối Internet</h2>
+      <button id="connect-btn">Kết nối</button>
+    </div>
+  </div>
+
+  <!-- Video hiện ra sau khi nhấn nút -->
+  <div id="video-container">
+    <video id="birthday-video" autoplay muted playsinline>
+      <source src="https://drive.google.com/file/d/1S1NF6AshWhWGG8hQbezjDlAyfg5_cTlV/view?usp=drive_link" type="video/mp4" />
+      <!-- Thay src trên bằng link video clip sinh nhật của bạn -->
+      Trình duyệt không hỗ trợ video.
+    </video>
+    <button id="close-video-btn">Đóng video</button>
+  </div>
+
+  <script>
+    const connectBtn = document.getElementById('connect-btn');
+    const fakeWifiPopup = document.getElementById('fake-wifi-popup');
+    const videoContainer = document.getElementById('video-container');
+    const birthdayVideo = document.getElementById('birthday-video');
+    const closeVideoBtn = document.getElementById('close-video-btn');
+
+    // Khi bấm nút kết nối
+    connectBtn.addEventListener('click', () => {
+      fakeWifiPopup.style.display = 'none';  // Ẩn popup giả wifi
+      videoContainer.style.display = 'flex'; // Hiện video
+
+      birthdayVideo.muted = false; // Bật âm (nếu muốn)
+      birthdayVideo.play().catch(() => {
+        // Nếu trình duyệt chặn tự động phát âm thanh
+        birthdayVideo.muted = true;
+        birthdayVideo.play();
+      });
+    });
+
+    // Khi bấm nút đóng video
+    closeVideoBtn.addEventListener('click', () => {
+      birthdayVideo.pause();
+      birthdayVideo.currentTime = 0;
+      videoContainer.style.display = 'none';
+      fakeWifiPopup.style.display = 'flex'; // Quay lại popup giả wifi
+    });
+  </script>
+</body>
+</html>
